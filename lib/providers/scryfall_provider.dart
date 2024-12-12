@@ -19,6 +19,7 @@ class ScryfallProvider extends ChangeNotifier {
   /// Constructor que inicializa el proveedor y carga los sets disponibles.
   ScryfallProvider() {
     getAvailableSets();
+    loadRandomCards();
   }
 
   /// Obtiene los sets disponibles desde la API de Scryfall.
@@ -74,6 +75,37 @@ class ScryfallProvider extends ChangeNotifier {
       }
     } catch (e) {
       print('Error al obtener las cartas del set $setCode: $e');
+    }
+  }
+   /// Lista de cartas aleatorias.
+  List<carts_response.Carta> randomCards = [];
+
+  /// Obtiene una carta aleatoria desde la API y la añade a la lista de cartas aleatorias.
+  Future<void> getRandomCard() async {
+    final url = Uri.https(_baseUrl, '/cards/random');
+    print(url);
+
+    try {
+      final response = await http.get(url);
+      print(response.body.toString);
+
+      if (response.statusCode == 200) {
+        final card = carts_response.Carta.fromJson(json.decode(response.body));
+        randomCards.add(card);
+        notifyListeners();
+      } else {
+        throw Exception('Error al obtener una carta aleatoria.');
+      }
+    } catch (e) {
+      print('Error al obtener una carta aleatoria: $e');
+    }
+  }
+
+  /// Carga varias cartas aleatorias al iniciar.
+  Future<void> loadRandomCards({int count = 50}) async {
+    randomCards.clear(); // Limpiar las cartas anteriores
+    for (int i = 0; i < count; i++) {
+      await getRandomCard();
     }
   }
 }

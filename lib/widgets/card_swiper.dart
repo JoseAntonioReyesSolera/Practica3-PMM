@@ -13,7 +13,7 @@ class CardSwiper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 300,
       child: Swiper(
         itemCount: sets.length,
         layout: SwiperLayout.STACK,

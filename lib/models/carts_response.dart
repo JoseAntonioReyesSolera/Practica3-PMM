@@ -22,6 +22,7 @@ class Carta {
   final String oracleText;
   final String? power;
   final String? toughness;
+  final String? setName;
 
   Carta({
     required this.name,
@@ -31,6 +32,7 @@ class Carta {
     required this.oracleText,
     this.power,
     this.toughness,
+    this.setName,
   });
 
   factory Carta.fromJson(Map<String, dynamic> json) => Carta(
@@ -41,6 +43,7 @@ class Carta {
     oracleText: json["oracle_text"], 
     power: json["power"],
     toughness: json["toughness"],
+    setName: json["set_name"],
   );
 }
 

@@ -59,9 +59,6 @@ class SetCardsScreen extends StatelessWidget {
                 },
                 child: Card(
                   elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
                   child: Column(
                     children: [
                       Image.network(card.imageUris?.small ?? 'https://example.com/default_image.png'),

@@ -34,6 +34,11 @@ class DetailsScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
+                    carta.setName ?? "",
+                    style: TextStyle(fontSize: 18),
+                  ),
+
+                  Text(
                     (carta.power != null && carta.toughness != null)
                     ? "${carta.power} / ${carta.toughness}"
                     : "${carta.power ?? ""}${carta.toughness ?? ""}",

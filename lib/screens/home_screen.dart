@@ -36,6 +36,9 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: 100),
+            // Slider de cartas aleatorias
+            RandomCardSlider(cards: scryfallProvider.randomCards),
             ],
           ),
         ),

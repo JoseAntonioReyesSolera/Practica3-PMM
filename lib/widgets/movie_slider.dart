@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:scryfall_api/models/sets_response.dart';
+import 'package:scryfall_api/models/carts_response.dart';
+import 'package:scryfall_api/screens/details_screen.dart';
 
-class SetSlider extends StatelessWidget {
-  final List<Set> sets;
+class RandomCardSlider extends StatelessWidget {
+  final List<Carta> cards;
 
-  const SetSlider({Key? key, required this.sets}) : super(key: key);
-  
+  const RandomCardSlider({Key? key, required this.cards}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    if (sets.isEmpty) {
+    if (cards.isEmpty) {
       return Container(
         width: double.infinity,
         height: 260,
@@ -25,15 +26,16 @@ class SetSlider extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Sets disponibles',
+            child: Text('Cartas aleatorias',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
           SizedBox(height: 5),
           Expanded(
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: sets.length,
-                itemBuilder: (_, int index) => _SetPoster(set: sets[index])),
+              scrollDirection: Axis.horizontal,
+              itemCount: cards.length,
+              itemBuilder: (_, int index) => _CardPoster(card: cards[index]),
+            ),
           )
         ],
       ),
@@ -41,10 +43,10 @@ class SetSlider extends StatelessWidget {
   }
 }
 
-class _SetPoster extends StatelessWidget {
-  final Set set;
+class _CardPoster extends StatelessWidget {
+  final Carta card;
 
-  const _SetPoster({Key? key, required this.set}) : super(key: key);
+  const _CardPoster({Key? key, required this.card}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,23 +57,27 @@ class _SetPoster extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details', arguments: set),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+            onTap: () {
+              // Navegar a la pantalla de detalles
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailsScreen(carta: card),
+                ),
+              );
+            },
               child: FadeInImage(
                 placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(set.iconSvgUri),
+                image: NetworkImage(card.imageUris?.normal ?? ''),
                 width: 130,
                 height: 180,
-                fit: BoxFit.cover,
               ),
-            ),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            set.name,
+            card.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
